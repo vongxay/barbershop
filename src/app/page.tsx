@@ -6,50 +6,50 @@ import Header from "@/components/Header";
 const services = [
   {
     id: 1,
-    name: "ตัดผมชาย",
-    description: "บริการตัดผมพร้อมสระและเป่า",
+    name: "Men's Haircut",
+    description: "Haircut service with wash and blow dry",
     price: "300฿",
-    duration: "45 นาที",
+    duration: "45 mins",
     image: "/images/services/service-1.png"
   },
   {
     id: 2,
-    name: "เล็มเครา",
-    description: "จัดแต่งเครา หนวด ให้เข้ารูป",
+    name: "Beard Trim",
+    description: "Professional beard and mustache styling",
     price: "200฿",
-    duration: "30 นาที",
+    duration: "30 mins",
     image: "/images/services/service-2.jpg"
   },
   {
     id: 3,
-    name: "โกนหนวด",
-    description: "บริการโกนหนวดด้วยมีดโกนคุณภาพสูง",
+    name: "Clean Shave",
+    description: "Traditional shaving service with premium razor",
     price: "150฿",
-    duration: "20 นาที",
+    duration: "20 mins",
     image: "/images/services/service-3.jpg"
   },
   {
     id: 4,
-    name: "สระผม",
-    description: "สระผมพร้อมนวดศีรษะผ่อนคลาย",
+    name: "Hair Wash",
+    description: "Relaxing hair wash with head massage",
     price: "200฿",
-    duration: "30 นาที",
+    duration: "30 mins",
     image: "/images/services/service-4.jpg"
   },
   {
     id: 5,
-    name: "ย้อมผม",
-    description: "บริการย้อมผมด้วยผลิตภัณฑ์คุณภาพ",
+    name: "Hair Color",
+    description: "Professional hair coloring service",
     price: "1,500฿",
-    duration: "120 นาที",
+    duration: "120 mins",
     image: "/images/services/service-5.png"
   },
   {
     id: 6,
-    name: "สไตล์ลิ่ง",
-    description: "จัดแต่งทรงผมตามสไตล์ที่ต้องการ",
+    name: "Hair Styling",
+    description: "Custom hair styling to your preference",
     price: "500฿",
-    duration: "45 นาที",
+    duration: "45 mins",
     image: "/images/services/service-6.png"
   }
 ];
@@ -57,41 +57,41 @@ const services = [
 const barbers = [
   {
     id: 1,
-    name: "คุณเอก",
+    name: "Mr. Ake",
     image: "/images/barbers/barber.jpg",
-    experience: "10 ปี",
-    speciality: "ทรงผมคลาสสิก",
-    description: "ผู้เชี่ยวชาญด้านการตัดผมสไตล์คลาสสิก มีประสบการณ์กว่า 10 ปี",
+    experience: "10 years",
+    speciality: "Classic Haircuts",
+    description: "Expert in classic haircuts with over 10 years of experience",
     rating: 4.9,
     reviews: 150
   },
   {
     id: 2,
-    name: "คุณโจ",
+    name: "Mr. Joe",
     image: "/images/barbers/barber.jpg",
-    experience: "8 ปี",
-    speciality: "ทรงผมสมัยใหม่",
-    description: "ช่างตัดผมสไตล์โมเดิร์น เชี่ยวชาญการจัดแต่งทรงผมแฟชั่น",
+    experience: "8 years",
+    speciality: "Modern Styles",
+    description: "Modern hairstyle specialist with expertise in fashion trends",
     rating: 4.8,
     reviews: 120
   },
   {
     id: 3,
-    name: "คุณแบงค์",
+    name: "Mr. Bank",
     image: "/images/barbers/barber.jpg",
-    experience: "5 ปี",
-    speciality: "การย้อมผม",
-    description: "ผู้เชี่ยวชาญด้านการย้อมผมและทำสีผม มีความรู้ด้านการดูแลเส้นผม",
+    experience: "5 years",
+    speciality: "Hair Coloring",
+    description: "Hair coloring expert with deep knowledge in hair care",
     rating: 4.7,
     reviews: 90
   },
   {
     id: 4,
-    name: "คุณเบน",
+    name: "Mr. Ben",
     image: "/images/barbers/barber.jpg",
-    experience: "7 ปี",
-    speciality: "การดูแลเครา",
-    description: "เชี่ยวชาญการตกแต่งเครา หนวด และการโกนหนวดแบบดั้งเดิม",
+    experience: "7 years",
+    speciality: "Beard Care",
+    description: "Specialist in beard grooming and traditional shaving",
     rating: 4.9,
     reviews: 110
   }
@@ -100,26 +100,26 @@ const barbers = [
 const testimonials = [
   {
     id: 1,
-    name: "คุณสมชาย",
+    name: "Mr. Somchai",
     image: "/images/testimonials/client.jpg",
     rating: 5,
-    comment: "บริการดีเยี่ยม ช่างมีความเชี่ยวชาญมาก ได้ทรงตามที่ต้องการ",
+    comment: "Excellent service, very professional staff, got exactly the style I wanted",
     date: "15/02/2024"
   },
   {
     id: 2,
-    name: "คุณวิชัย",
+    name: "Mr. Wichai",
     image: "/images/testimonials/client.jpg",
     rating: 5,
-    comment: "ประทับใจมาก บรรยากาศดี สะอาด ช่างใส่ใจรายละเอียด",
+    comment: "Very impressed with the atmosphere, cleanliness, and attention to detail",
     date: "14/02/2024"
   },
   {
     id: 3,
-    name: "คุณกิตติ",
+    name: "Mr. Kitti",
     image: "/images/testimonials/client.jpg",
     rating: 4,
-    comment: "ช่างมีความเป็นมืออาชีพ ให้คำแนะนำดี ราคาสมเหตุสมผล",
+    comment: "Professional barbers with great advice and reasonable prices",
     date: "13/02/2024"
   }
 ];
@@ -128,38 +128,38 @@ const gallery = [
   {
     id: 1,
     image: "/images/gallery/gallery-1.jpg",
-    category: "ทรงผม",
-    title: "ทรงผมคลาสสิก"
+    category: "Haircuts",
+    title: "Classic Haircuts"
   },
   {
     id: 2,
     image: "/images/gallery/gallery-2.jpg",
-    category: "ทรงผม",
-    title: "ทรงผมสมัยใหม่"
+    category: "Haircuts",
+    title: "Modern Styles"
   },
   {
     id: 3,
     image: "/images/gallery/gallery-3.jpg",
-    category: "เครา",
-    title: "การจัดแต่งเครา"
+    category: "Beard",
+    title: "Beard Styling"
   },
   {
     id: 4,
     image: "/images/gallery/gallery-4.jpg",
-    category: "สี",
-    title: "การย้อมผม"
+    category: "Color",
+    title: "Hair Coloring"
   },
   {
     id: 5,
     image: "/images/gallery/gallery-5.jpg",
-    category: "ร้าน",
-    title: "บรรยากาศภายในร้าน"
+    category: "Shop",
+    title: "Shop Interior"
   },
   {
     id: 6,
     image: "/images/gallery/gallery-6.jpg",
-    category: "ร้าน",
-    title: "พื้นที่บริการ"
+    category: "Shop",
+    title: "Service Area"
   }
 ];
 
@@ -196,12 +196,12 @@ export default function Home() {
               <div className="space-y-4 animate-fade-in-up">
                 <span className="inline-block text-yellow-400 text-lg font-medium tracking-wider uppercase mb-2">Welcome to Our Barbershop</span>
                 <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-                  ประสบการณ์
-                  <span className="block mt-2 bg-gradient-to-r from-yellow-400 via-yellow-300 to-orange-500 text-transparent bg-clip-text">การตัดผม</span>
-                  <span className="block mt-2">ที่เหนือระดับ</span>
+                  Experience
+                  <span className="block mt-2 bg-gradient-to-r from-yellow-400 via-yellow-300 to-orange-500 text-transparent bg-clip-text">Haircuts</span>
+                  <span className="block mt-2">at Their Finest</span>
                 </h1>
                 <p className="text-xl text-gray-300 max-w-lg leading-relaxed">
-                  บริการตัดผมมืออาชีพ พร้อมช่างที่มีประสบการณ์ ในบรรยากาศสบายๆ
+                  Professional haircut services with experienced barbers in a relaxing atmosphere
                 </p>
               </div>
               
@@ -212,7 +212,7 @@ export default function Home() {
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-yellow-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   <span className="relative flex items-center justify-center gap-2 font-semibold text-black">
-                    จองคิวออนไลน์
+                    Book Now
                     <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                     </svg>
@@ -225,7 +225,7 @@ export default function Home() {
                 >
                   <div className="absolute inset-0 border-2 border-yellow-400 rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
                   <span className="relative flex items-center justify-center gap-2 text-white group-hover:text-yellow-400 transition-colors duration-300">
-                    ดูบริการของเรา
+                    View Our Services
                     <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -237,15 +237,15 @@ export default function Home() {
               <div className="grid grid-cols-3 gap-8 pt-12 animate-fade-in-up animation-delay-600">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-yellow-400 mb-2">10+</div>
-                  <div className="text-gray-400 text-sm">ปีประสบการณ์</div>
+                  <div className="text-gray-400 text-sm">Years Experience</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-yellow-400 mb-2">1.2K+</div>
-                  <div className="text-gray-400 text-sm">ลูกค้าพึงพอใจ</div>
+                  <div className="text-gray-400 text-sm">Happy Clients</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-yellow-400 mb-2">4.9</div>
-                  <div className="text-gray-400 text-sm">คะแนนรีวิว</div>
+                  <div className="text-gray-400 text-sm">Review Score</div>
                 </div>
               </div>
             </div>
@@ -274,18 +274,18 @@ export default function Home() {
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-400/5 rounded-full filter blur-3xl" />
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-8 md:px-12 relative z-10">
           <div className="text-center mb-20">
             <span className="inline-block text-yellow-400 text-lg font-medium tracking-wider uppercase mb-4">Our Services</span>
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              บริการของเรา
+              Our Services
             </h2>
             <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              เลือกบริการที่ตรงกับสไตล์ของคุณ ด้วยทีมช่างมืออาชีพที่พร้อมให้บริการ
+              Choose the service that matches your style with our team of professional barbers
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {services.map((service) => (
               <div
                 key={service.id}
@@ -326,7 +326,7 @@ export default function Home() {
                   className="relative overflow-hidden block w-full text-center bg-gradient-to-r from-yellow-400 to-yellow-500 text-black py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-yellow-400/20"
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    จองบริการนี้
+                    Book This Service
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                     </svg>
@@ -341,7 +341,7 @@ export default function Home() {
       {/* Barbers Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">ช่างมืออาชีพของเรา</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Our Professional Barbers</h2>
           <div className="grid md:grid-cols-4 gap-8">
             {barbers.map((barber) => (
               <div
@@ -357,7 +357,7 @@ export default function Home() {
                   />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">{barber.name}</h3>
-                <p className="text-gray-600">ประสบการณ์ {barber.experience}</p>
+                <p className="text-gray-600">Experience {barber.experience}</p>
                 <p className="text-gray-500 text-sm mb-3">{barber.speciality}</p>
                 <p className="text-gray-600 text-sm mb-4">{barber.description}</p>
                 <div className="flex items-center justify-center gap-2 mb-4">
@@ -377,13 +377,13 @@ export default function Home() {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-gray-600">({barber.reviews} รีวิว)</span>
+                  <span className="text-gray-600">({barber.reviews} Reviews)</span>
                 </div>
                 <Link
                   href={`/booking?barber=${barber.id}`}
                   className="mt-4 inline-block bg-gray-800 text-white px-6 py-2 rounded-full hover:bg-black transition"
                 >
-                  จองคิว
+                  Book Appointment
                 </Link>
               </div>
             ))}
@@ -394,7 +394,7 @@ export default function Home() {
       {/* Testimonials Section */}
       <section className="py-16">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">เสียงจากลูกค้า</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Client Testimonials</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial) => (
               <div
@@ -439,7 +439,7 @@ export default function Home() {
       {/* Gallery Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">แกลเลอรี่ผลงาน</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">Our Gallery</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             {gallery.map((item) => (
               <div
@@ -464,7 +464,7 @@ export default function Home() {
               href="/gallery"
               className="inline-block bg-black text-white px-8 py-3 rounded-full hover:bg-gray-800 transition"
             >
-              ดูแกลเลอรี่ทั้งหมด
+              View All Gallery
             </Link>
           </div>
         </div>
@@ -475,16 +475,15 @@ export default function Home() {
         <div className="container mx-auto">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-4">โปรโมชั่นพิเศษสำหรับลูกค้าใหม่</h2>
+              <h2 className="text-3xl font-bold mb-4">Special Promotion for New Clients</h2>
               <p className="text-gray-300 mb-8">
-                รับส่วนลด 20% สำหรับการใช้บริการครั้งแรก พร้อมรับสิทธิพิเศษมากมาย
-                เมื่อสมัครสมาชิกกับเรา
+                Get 20% off on your first visit and exclusive benefits when you become a member
               </p>
               <Link
                 href="/register"
                 className="inline-block bg-white text-black px-8 py-3 rounded-full hover:bg-gray-100 transition"
               >
-                สมัครสมาชิก
+                Register Now
               </Link>
             </div>
             <div className="relative h-[400px]">
@@ -503,10 +502,10 @@ export default function Home() {
       <section className="py-24 bg-gradient-to-b from-white to-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">ติดต่อเรา</h2>
+            <h2 className="text-4xl font-bold mb-4">Contact Us</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              หากคุณมีคำถามหรือต้องการข้อมูลเพิ่มเติม สามารถติดต่อเราได้ตามช่องทางด้านล่าง 
-              เรายินดีให้บริการและตอบทุกคำถามของคุณ
+              If you have any questions or need more information, please contact us through the channels below.
+              We&apos;re happy to help and answer all your questions.
             </p>
           </div>
 
@@ -516,16 +515,15 @@ export default function Home() {
                 <div className="flex items-start gap-4">
                   <div className="bg-black rounded-full p-3 shrink-0">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0zM15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">ที่อยู่</h3>
+                    <h3 className="text-xl font-semibold mb-2">Address</h3>
                     <p className="text-gray-600 leading-relaxed">
-                      123 ถนนสุขุมวิท<br />
-                      แขวงคลองเตย เขตคลองเตย<br />
-                      กรุงเทพฯ 10110
+                      123 Sukhumvit Road<br />
+                      Klongtoey, Klongtoey<br />
+                      Bangkok 10110
                     </p>
                   </div>
                 </div>
@@ -537,14 +535,14 @@ export default function Home() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">เวลาทำการ</h3>
+                    <h3 className="text-xl font-semibold mb-2">Opening Hours</h3>
                     <div className="space-y-2">
                       <div className="flex justify-between text-gray-600">
-                        <span>จันทร์ - ศุกร์</span>
+                        <span>Monday - Friday</span>
                         <span>10:00 - 20:00</span>
                       </div>
                       <div className="flex justify-between text-gray-600">
-                        <span>เสาร์ - อาทิตย์</span>
+                        <span>Saturday - Sunday</span>
                         <span>09:00 - 21:00</span>
                       </div>
                     </div>
@@ -558,13 +556,13 @@ export default function Home() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">ติดต่อ</h3>
+                    <h3 className="text-xl font-semibold mb-2">Contact</h3>
                     <div className="space-y-2">
                       <p className="text-gray-600">
-                        <span className="font-medium">โทร:</span> 02-123-4567
+                        <span className="font-medium">Tel:</span> 02-123-4567
                       </p>
                       <p className="text-gray-600">
-                        <span className="font-medium">อีเมล:</span> info@barbershop.com
+                        <span className="font-medium">Email:</span> info@barbershop.com
                       </p>
                     </div>
                   </div>
@@ -577,7 +575,7 @@ export default function Home() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold mb-2">ช่องทางติดตาม</h3>
+                    <h3 className="text-xl font-semibold mb-2">Follow Us</h3>
                     <div className="flex gap-4 mt-3">
                       <Link 
                         href="#" 
@@ -606,7 +604,7 @@ export default function Home() {
                 href="/contact"
                 className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 rounded-full hover:bg-gray-800 transition mt-8 group"
               >
-                <span>ติดต่อเพิ่มเติม</span>
+                <span>Contact Us</span>
                 <svg 
                   className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" 
                   fill="none" 
@@ -640,28 +638,28 @@ export default function Home() {
         <div className="container mx-auto">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">ติดต่อเรา</h3>
-              <p>123 ถนนสุขุมวิท</p>
-              <p>กรุงเทพฯ 10110</p>
-              <p>โทร: 02-123-4567</p>
-              <p>อีเมล: info@barbershop.com</p>
+              <h3 className="text-xl font-bold mb-4">Contact Us</h3>
+              <p>123 Sukhumvit Road</p>
+              <p>Bangkok 10110</p>
+              <p>Tel: 02-123-4567</p>
+              <p>Email: info@barbershop.com</p>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-4">เวลาทำการ</h3>
-              <p>จันทร์ - ศุกร์: 10:00 - 20:00</p>
-              <p>เสาร์ - อาทิตย์: 09:00 - 21:00</p>
+              <h3 className="text-xl font-bold mb-4">Opening Hours</h3>
+              <p>Monday - Friday: 10:00 - 20:00</p>
+              <p>Saturday - Sunday: 09:00 - 21:00</p>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-4">ลิงก์ด่วน</h3>
+              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <ul>
-                <li><Link href="/booking" className="hover:underline">จองคิว</Link></li>
-                <li><Link href="/services" className="hover:underline">บริการ</Link></li>
-                <li><Link href="/gallery" className="hover:underline">แกลเลอรี่</Link></li>
-                <li><Link href="/contact" className="hover:underline">ติดต่อ</Link></li>
+                <li><Link href="/booking" className="hover:underline">Book Appointment</Link></li>
+                <li><Link href="/services" className="hover:underline">Services</Link></li>
+                <li><Link href="/gallery" className="hover:underline">Gallery</Link></li>
+                <li><Link href="/contact" className="hover:underline">Contact</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-4">โซเชียลมีเดีย</h3>
+              <h3 className="text-xl font-bold mb-4">Social Media</h3>
               <div className="flex gap-4">
                 <Link href="#" className="hover:text-gray-300">
                   <Image src="/facebook.svg" alt="Facebook" width={24} height={24} />

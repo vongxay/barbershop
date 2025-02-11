@@ -27,15 +27,22 @@ export default function Header() {
     <header className="bg-white shadow-sm fixed w-full z-50">
       <div className="container mx-auto py-4 flex items-center justify-between">
         <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2" onClick={handleLinkClick}>
-            <Image
-              src="/logo.svg"
-              alt="Barbershop Logo"
-              width={150}
-              height={40}
-              className="w-32 md:w-auto"
-            />
-            <p className="text-gray-600 hidden md:block">ร้านตัดผมมืออาชีพ</p>
+          <Link href="/" className="flex items-center gap-3" onClick={handleLinkClick}>
+            <div className="relative">
+              <Image
+                src="/logo/logo.jpg"
+                alt="Barbershop Logo"
+                width={20}
+                height={20}
+                className="w-16 md:w-20 h-auto object-contain transition-transform hover:scale-105"
+                priority
+                quality={100}
+              />
+            </div>
+            <div className="hidden md:block border-l-2 border-gray-200 pl-2">
+              <p className="text-gray-700 text-xs font-medium">ร้านตัดผมมืออาชีพ</p>
+              <p className="text-gray-500 text-[10px]">Professional Barber Shop</p>
+            </div>
           </Link>
           <nav className="hidden md:flex items-center gap-8">
             <Link 
