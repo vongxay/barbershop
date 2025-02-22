@@ -1,40 +1,31 @@
-# Welcome to your Lovable project
+# Welcome to your new project!
 
-## Project info
+## Getting Started
 
-**URL**: https://lovable.dev/projects/671e5c25-b85c-43ab-8cb7-0b2107f05c3b
+To get started, follow these steps:
 
-## How can I edit this code?
+1. Clone this repository to your local machine.
+2. Open the project in your code editor.
+3. Start the development server by running `npm run dev` or `yarn dev`.
+4. Access the application in your browser at `http://localhost:3000`.
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- **Live Preview**: This project comes with a live preview feature that allows you to see your changes in real-time as you make them.
+- **Code Splitting**: This project uses code splitting to load only the necessary code for the current page, resulting in faster load times.
+- **TypeScript**: This project is built with TypeScript, which provides type safety and better tooling.
+- **Tailwind CSS**: This project uses Tailwind CSS for styling, which provides a robust and customizable framework for building user interfaces.
+- **Shadcn UI**: This project uses Shadcn UI, a set of customizable React components based on Tailwind CSS, to build the user interface.
+- **Vite**: This project is built with Vite, a fast and lightweight build tool for modern web development.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/671e5c25-b85c-43ab-8cb7-0b2107f05c3b) and start prompting.
+## Customization
 
-Changes made via Lovable will be committed automatically to this repo.
+You can customize the project by following these steps:
 
-**Use your preferred IDE**
+1. Open the `src/App.tsx` file in your code editor.
+2. Make the necessary changes to customize the application.
+3. Save the changes and see the updates in the live preview.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
 
 **Edit a file directly in GitHub**
 
@@ -60,10 +51,3 @@ This project is built with .
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/671e5c25-b85c-43ab-8cb7-0b2107f05c3b) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)

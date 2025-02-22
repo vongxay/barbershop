@@ -612,11 +612,11 @@ const Index = () => {
               <div className="mt-4 space-y-2">
                 <div className="flex items-center gap-2 text-barber-400">
                   <Phone className="w-4 h-4 text-gold-500" />
-                  <span>(555) 123-4567</span>
+                  <span>2077832019</span>
                 </div>
                 <div className="flex items-center gap-2 text-barber-400">
                   <Mail className="w-4 h-4 text-gold-500" />
-                  <span>info@cutcrafter.com</span>
+                  <span>info@vongcut.com</span>
                 </div>
               </div>
             </div>
