@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Home, Scissors, Clock, CalendarDays, MapPin, Phone, Mail, Facebook, ChevronDown } from "lucide-react";
+import { Home, Scissors, Clock, CalendarDays, MapPin, Phone, Mail, Facebook, ChevronDown, Heart, Share2, Download, X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
 import { FaTiktok } from "react-icons/fa";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -57,6 +57,7 @@ const galleryImages = [
     title: "Classic Fade Transformation",
     beforeImage: "https://images.unsplash.com/photo-1519699047748-de8e457a634e",
     afterImage: "https://images.unsplash.com/photo-1622286342621-4bd786c2447c",
+    likes: 0,
   },
   {
     id: 2,
@@ -64,6 +65,7 @@ const galleryImages = [
     title: "Modern Workspace",
     image: "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f",
     description: "Our state-of-the-art barbershop interior",
+    likes: 0,
   },
   {
     id: 3,
@@ -71,6 +73,7 @@ const galleryImages = [
     title: "Beard Grooming",
     beforeImage: "https://images.unsplash.com/photo-1595152772835-219674b2a8a6",
     afterImage: "https://images.unsplash.com/photo-1621605774974-01ecce055b78",
+    likes: 0,
   },
   {
     id: 4,
@@ -78,12 +81,16 @@ const galleryImages = [
     title: "Waiting Area",
     image: "https://images.unsplash.com/photo-1519415943484-9b6adf564897",
     description: "Comfortable waiting area for our clients",
+    likes: 0,
   },
 ];
 
 const Index = () => {
   const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [likedImages, setLikedImages] = useState<number[]>([]);
+  const [selectedImage, setSelectedImage] = useState<(typeof galleryImages)[0] | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -108,6 +115,89 @@ const Index = () => {
     }));
   };
 
+  const handleLike = (imageId: number) => {
+    setLikedImages(prev => {
+      if (prev.includes(imageId)) {
+        return prev.filter(id => id !== imageId);
+      }
+      return [...prev, imageId];
+    });
+  };
+
+  const handleShare = async (image: typeof galleryImages[0]) => {
+    try {
+      const shareData = {
+        title: image.title,
+        text: `Check out this amazing ${image.title} at VongCut Barbershop!`,
+        url: window.location.href,
+      };
+
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback for browsers that don't support Web Share API
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent(shareData.text);
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${text}`);
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
+
+  const handleDownload = async (image: typeof galleryImages[0]) => {
+    try {
+      const imageUrl = image.type === "before-after" ? image.afterImage : image.image;
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${image.title.toLowerCase().replace(/\s+/g, '-')}.jpg`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
+  };
+
+  const handleImageClick = (image: typeof galleryImages[0], index: number) => {
+    setSelectedImage(image);
+    setCurrentImageIndex(index);
+  };
+
+  const handleCloseGallery = () => {
+    setSelectedImage(null);
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prev) => {
+      const newIndex = prev - 1;
+      if (newIndex < 0) return galleryImages.length - 1;
+      return newIndex;
+    });
+    setSelectedImage(galleryImages[currentImageIndex]);
+  };
+
+  const handleNextImage = () => {
+    setCurrentImageIndex((prev) => {
+      const newIndex = prev + 1;
+      if (newIndex >= galleryImages.length) return 0;
+      return newIndex;
+    });
+    setSelectedImage(galleryImages[currentImageIndex]);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (selectedImage) {
+      if (e.key === 'Escape') handleCloseGallery();
+      if (e.key === 'ArrowLeft') handlePrevImage();
+      if (e.key === 'ArrowRight') handleNextImage();
+    }
+  };
+
   useEffect(() => {
     if (!mapContainer.current) return;
 
@@ -128,6 +218,11 @@ const Index = () => {
       map.current?.remove();
     };
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedImage, currentImageIndex]);
 
   return (
     <div className="min-h-screen bg-barber-50">
@@ -191,9 +286,16 @@ const Index = () => {
             </div>
 
             <div className="flex items-center gap-4">
-              <div className="hidden md:flex items-center gap-2 text-barber-300">
-                <Phone className="w-4 h-4 text-gold-500" />
-                <span>2077832019</span>
+              <div className="hidden md:flex items-center gap-2">
+                <a 
+                  href="https://wa.me/8562077832019" 
+                  target="_blank"
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 text-barber-300 hover:text-gold-500 transition-colors"
+                >
+                  <Phone className="w-4 h-4 text-gold-500" />
+                  <span>2077832019</span>
+                </a>
               </div>
               <AuthForms />
               <Button 
@@ -248,9 +350,9 @@ const Index = () => {
 
                 <div className="space-y-2">
                   <p className="text-barber-400 text-sm font-medium">About</p>
-                  <a href="#" className="block text-white hover:text-gold-500 transition-colors pl-4">Our Story</a>
-                  <a href="#" className="block text-white hover:text-gold-500 transition-colors pl-4">Team</a>
-                  <a href="#" className="block text-white hover:text-gold-500 transition-colors pl-4">Gallery</a>
+                  <a href="/our-story" className="block text-white hover:text-gold-500 transition-colors pl-4">Our Story</a>
+                  <a href="/team" className="block text-white hover:text-gold-500 transition-colors pl-4">Team</a>
+                  <a href="/gallery" className="block text-white hover:text-gold-500 transition-colors pl-4">Gallery</a>
                 </div>
 
                 <a href="#contact" className="text-white hover:text-gold-500 transition-colors">
@@ -258,8 +360,15 @@ const Index = () => {
                 </a>
 
                 <div className="flex items-center gap-2 text-barber-300">
+                  <a 
+                  href="https://wa.me/8562077832019" 
+                  target="_blank"
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 text-barber-300 hover:text-gold-500 transition-colors"
+                >
                   <Phone className="w-4 h-4 text-gold-500" />
                   <span>2077832019</span>
+                </a>
                 </div>
               </div>
             </motion.nav>
@@ -394,13 +503,14 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
-            {galleryImages.map((item) => (
+            {galleryImages.map((item, index) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="rounded-lg overflow-hidden"
+                className="rounded-lg overflow-hidden cursor-pointer group"
+                onClick={() => handleImageClick(item, index)}
               >
                 {item.type === "before-after" ? (
                   <div className="relative group">
@@ -415,11 +525,46 @@ const Index = () => {
                         alt={`After - ${item.title}`}
                         className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                       />
+                      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <Maximize2 className="w-6 h-6 text-white" />
+                      </div>
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
                       <div className="absolute bottom-0 left-0 right-0 p-4">
                         <h3 className="text-white text-sm md:text-xl font-semibold">{item.title}</h3>
                         <p className="text-barber-200 text-xs md:text-sm">Hover to see transformation</p>
+                        <div className="flex items-center gap-4 mt-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleLike(item.id);
+                            }}
+                            className="flex items-center gap-1 text-white hover:text-gold-500 transition-colors"
+                          >
+                            <Heart className={`w-5 h-5 ${likedImages.includes(item.id) ? 'fill-gold-500 text-gold-500' : ''}`} />
+                            <span>{likedImages.includes(item.id) ? item.likes + 1 : item.likes}</span>
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleShare(item);
+                            }}
+                            className="flex items-center gap-1 text-white hover:text-gold-500 transition-colors"
+                          >
+                            <Share2 className="w-5 h-5" />
+                            <span>Share</span>
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownload(item);
+                            }}
+                            className="flex items-center gap-1 text-white hover:text-gold-500 transition-colors"
+                          >
+                            <Download className="w-5 h-5" />
+                            <span>Download</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -430,10 +575,45 @@ const Index = () => {
                       alt={item.title}
                       className="w-full h-full object-cover"
                     />
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Maximize2 className="w-6 h-6 text-white" />
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
                       <div className="absolute bottom-0 left-0 right-0 p-4">
                         <h3 className="text-white text-sm md:text-xl font-semibold">{item.title}</h3>
                         <p className="text-barber-200 text-xs md:text-sm">{item.description}</p>
+                        <div className="flex items-center gap-4 mt-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleLike(item.id);
+                            }}
+                            className="flex items-center gap-1 text-white hover:text-gold-500 transition-colors"
+                          >
+                            <Heart className={`w-5 h-5 ${likedImages.includes(item.id) ? 'fill-gold-500 text-gold-500' : ''}`} />
+                            <span>{likedImages.includes(item.id) ? item.likes + 1 : item.likes}</span>
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleShare(item);
+                            }}
+                            className="flex items-center gap-1 text-white hover:text-gold-500 transition-colors"
+                          >
+                            <Share2 className="w-5 h-5" />
+                            <span>Share</span>
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDownload(item);
+                            }}
+                            className="flex items-center gap-1 text-white hover:text-gold-500 transition-colors"
+                          >
+                            <Download className="w-5 h-5" />
+                            <span>Download</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -593,16 +773,16 @@ const Index = () => {
               <h4 className="text-white font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
                 <li>
-                  <a href="#" className="text-barber-400 hover:text-gold-500">Services</a>
+                  <a href="/services" className="text-barber-400 hover:text-gold-500">Services</a>
                 </li>
                 <li>
-                  <a href="#" className="text-barber-400 hover:text-gold-500">About Us</a>
+                  <a href="/about" className="text-barber-400 hover:text-gold-500">About Us</a>
                 </li>
                 <li>
-                  <a href="#" className="text-barber-400 hover:text-gold-500">Gallery</a>
+                  <a href="/gallery" className="text-barber-400 hover:text-gold-500">Gallery</a>
                 </li>
                 <li>
-                  <a href="#" className="text-barber-400 hover:text-gold-500">Contact</a>
+                  <a href="/contact" className="text-barber-400 hover:text-gold-500">Contact</a>
                 </li>
               </ul>
             </div>
@@ -616,8 +796,15 @@ const Index = () => {
               </ul>
               <div className="mt-4 space-y-2">
                 <div className="flex items-center gap-2 text-barber-400">
+                <a 
+                  href="https://wa.me/8562077832019" 
+                  target="_blank"
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 text-barber-300 hover:text-gold-500 transition-colors"
+                >
                   <Phone className="w-4 h-4 text-gold-500" />
                   <span>2077832019</span>
+                </a>
                 </div>
                 <div className="flex items-center gap-2 text-barber-400">
                   <Mail className="w-4 h-4 text-gold-500" />
@@ -647,6 +834,85 @@ const Index = () => {
           </div>
         </div>
       </footer>
+
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
+            onClick={handleCloseGallery}
+          >
+            <div className="absolute top-4 right-4 z-50">
+              <button
+                onClick={handleCloseGallery}
+                className="text-white hover:text-gold-500 transition-colors"
+                title="Close gallery"
+                aria-label="Close gallery"
+              >
+                <X className="w-8 h-8" />
+              </button>
+            </div>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrevImage();
+              }}
+              className="absolute left-4 text-white hover:text-gold-500 transition-colors"
+              title="Previous image"
+              aria-label="View previous image"
+            >
+              <ChevronLeft className="w-8 h-8" />
+            </button>
+
+            <div
+              className="relative max-w-5xl max-h-[80vh] mx-4"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {selectedImage.type === "before-after" ? (
+                <div className="relative group">
+                  <img
+                    src={selectedImage.beforeImage}
+                    alt={`Before - ${selectedImage.title}`}
+                    className="max-h-[80vh] transition-opacity duration-300 group-hover:opacity-0"
+                  />
+                  <img
+                    src={selectedImage.afterImage}
+                    alt={`After - ${selectedImage.title}`}
+                    className="absolute inset-0 max-h-[80vh] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  />
+                </div>
+              ) : (
+                <img
+                  src={selectedImage.image}
+                  alt={selectedImage.title}
+                  className="max-h-[80vh]"
+                />
+              )}
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+                <h3 className="text-white text-xl font-semibold">{selectedImage.title}</h3>
+                {selectedImage.type !== "before-after" && (
+                  <p className="text-barber-200">{selectedImage.description}</p>
+                )}
+              </div>
+            </div>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNextImage();
+              }}
+              className="absolute right-4 text-white hover:text-gold-500 transition-colors"
+              title="Next image"
+              aria-label="View next image"
+            >
+              <ChevronRight className="w-8 h-8" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
