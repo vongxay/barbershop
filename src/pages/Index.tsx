@@ -6,7 +6,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Home, Scissors, Clock, CalendarDays, MapPin, Phone, Mail, Facebook, Instagram, ChevronDown } from "lucide-react";
+import { Home, Scissors, Clock, CalendarDays, MapPin, Phone, Mail, Facebook, ChevronDown } from "lucide-react";
+import { BsWhatsapp } from "react-icons/bs";
+import { FaTiktok } from "react-icons/fa";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -135,7 +137,7 @@ const Index = () => {
             <div className="flex items-center gap-8">
               <div className="flex items-center gap-2">
                 <Scissors className="w-8 h-8 text-gold-500" />
-                <div classname="hidden md:block">
+                <div className="hidden md:block">
                   <h1 className="text-xl font-bold text-white">VongCut</h1>
                   <p className="text-sm text-barber-400">Craft Your Style</p>
                 </div>
@@ -569,7 +571,7 @@ const Index = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 <Scissors className="w-6 h-6 text-gold-500" />
-                <h3 className="text-xl font-bold text-white">CutCrafter</h3>
+                <h3 className="text-xl font-bold text-white">VongCut</h3>
               </div>
               <p className="text-sm text-barber-400">
                 Premium grooming services for the modern gentleman.
@@ -579,7 +581,10 @@ const Index = () => {
                   <Facebook className="w-5 h-5" />
                 </a>
                 <a href="#" className="text-gold-500 hover:text-gold-400">
-                  <Instagram className="w-5 h-5" />
+                  <BsWhatsapp className="w-5 h-5" />
+                </a>
+                <a href="#" className="text-gold-500 hover:text-gold-400">
+                  <FaTiktok className="w-5 h-5" />
                 </a>
               </div>
             </div>
@@ -638,7 +643,7 @@ const Index = () => {
           </div>
 
           <div className="border-t border-barber-800 mt-12 pt-8 text-center text-barber-400 text-sm">
-            <p>&copy; {new Date().getFullYear()} CutCrafter. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} VongCut. All rights reserved.</p>
           </div>
         </div>
       </footer>
