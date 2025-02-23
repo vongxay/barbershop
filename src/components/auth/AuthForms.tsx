@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Dialog,
@@ -12,6 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/use-auth";
+import { LogOut } from "lucide-react";
 
 type AuthFormType = "login" | "register";
 
@@ -24,14 +26,55 @@ export function AuthForms() {
     name: "",
   });
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const { user, signOut } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically handle authentication
-    toast({
-      title: formType === "login" ? "Login Attempted" : "Registration Attempted",
-      description: "This is a demo. Authentication is not implemented yet.",
-    });
+    setIsLoading(true);
+    
+    try {
+      if (formType === "login") {
+        const { error } = await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (error) throw error;
+
+        toast({
+          title: "Login successful",
+          description: "Welcome back!",
+        });
+      } else {
+        const { error: signUpError } = await supabase.auth.signUp({
+          email: formData.email,
+          password: formData.password,
+          options: {
+            data: {
+              full_name: formData.name,
+            },
+          },
+        });
+
+        if (signUpError) throw signUpError;
+
+        toast({
+          title: "Registration successful",
+          description: "Please check your email to verify your account.",
+        });
+      }
+
+      setIsOpen(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "An error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +89,37 @@ export function AuthForms() {
     setFormType(formType === "login" ? "register" : "login");
     setFormData({ email: "", password: "", name: "" });
   };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed out successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error signing out",
+        description: "Please try again",
+        variant: "destructive",
+      });
+    }
+  };
+
+  if (user) {
+    return (
+      <div className="flex items-center gap-2">
+        <span className="text-white">{user.email}</span>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={handleSignOut}
+          className="text-white hover:text-gold-500"
+        >
+          <LogOut className="w-4 h-4" />
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -65,7 +139,7 @@ export function AuthForms() {
               : "Fill out the form below to create your account"}
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {formType === "register" && (
             <div className="space-y-2">
               <Label htmlFor="name" className="text-white">Name</Label>
@@ -107,18 +181,20 @@ export function AuthForms() {
               required
             />
           </div>
-          <div className="flex flex-col gap-4 pt-4">
+          <div className="space-y-4">
             <Button 
               type="submit"
               className="w-full bg-gold-500 hover:bg-gold-600 text-barber-950"
+              disabled={isLoading}
             >
-              {formType === "login" ? "Sign In" : "Create Account"}
+              {isLoading ? "Loading..." : formType === "login" ? "Sign In" : "Create Account"}
             </Button>
             <Button
               type="button"
               variant="ghost"
               onClick={toggleForm}
               className="text-barber-400 hover:text-white"
+              disabled={isLoading}
             >
               {formType === "login"
                 ? "Don't have an account? Register"

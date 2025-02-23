@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Dialog,
@@ -13,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { AuthForms } from "@/components/auth/AuthForms";
+import { useAuth } from "@/hooks/use-auth";
+import { supabase } from "@/integrations/supabase/client";
 
 type Service = {
   id: number;
@@ -22,9 +23,9 @@ type Service = {
   description: string;
 };
 
-interface BookingFormProps {
+type BookingFormProps = {
   service: Service;
-}
+};
 
 export function BookingForm({ service }: BookingFormProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,16 +35,45 @@ export function BookingForm({ service }: BookingFormProps) {
     notes: "",
   });
   const { toast } = useToast();
-  const [isAuthenticated] = useState(false); // This should be replaced with actual auth state
+  const { user, isAuthenticated } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically handle the booking submission
-    toast({
-      title: "Booking Attempted",
-      description: "This is a demo. Booking functionality is not implemented yet.",
-    });
-    setIsOpen(false);
+    setIsLoading(true);
+
+    try {
+      if (!user) throw new Error("Please login to book an appointment");
+
+      const { error } = await supabase
+        .from("bookings")
+        .insert([
+          {
+            user_id: user.id,
+            service_id: service.id,
+            service_name: service.name,
+            booking_date: `${formData.date}T${formData.time}`,
+            notes: formData.notes,
+            status: "pending",
+          },
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Booking successful",
+        description: "We'll confirm your appointment shortly.",
+      });
+      setIsOpen(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "An error occurred",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,10 +114,10 @@ export function BookingForm({ service }: BookingFormProps) {
                 Book {service.name}
               </DialogTitle>
               <DialogDescription className="text-barber-400">
-                Fill out the form below to book your appointment
+                Duration: {service.duration} • Price: {service.price}
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="date" className="text-white">Date</Label>
                 <Input
@@ -98,6 +128,7 @@ export function BookingForm({ service }: BookingFormProps) {
                   onChange={handleChange}
                   className="bg-barber-800 border-barber-700 text-white"
                   required
+                  min={new Date().toISOString().split("T")[0]}
                 />
               </div>
               <div className="space-y-2">
@@ -110,6 +141,9 @@ export function BookingForm({ service }: BookingFormProps) {
                   onChange={handleChange}
                   className="bg-barber-800 border-barber-700 text-white"
                   required
+                  min="09:00"
+                  max="18:00"
+                  step="1800"
                 />
               </div>
               <div className="space-y-2">
@@ -124,14 +158,13 @@ export function BookingForm({ service }: BookingFormProps) {
                   className="bg-barber-800 border-barber-700 text-white placeholder:text-barber-500"
                 />
               </div>
-              <div className="pt-4">
-                <Button 
-                  type="submit"
-                  className="w-full bg-gold-500 hover:bg-gold-600 text-barber-950"
-                >
-                  Confirm Booking
-                </Button>
-              </div>
+              <Button 
+                type="submit"
+                className="w-full bg-gold-500 hover:bg-gold-600 text-barber-950"
+                disabled={isLoading}
+              >
+                {isLoading ? "Booking..." : "Confirm Booking"}
+              </Button>
             </form>
           </>
         )}

@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Home, Scissors, Clock, CalendarDays, MapPin, Phone, Mail, Facebook, ChevronDown, Heart, Share2, Download, X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import { Home, Scissors, Clock, CalendarDays, MapPin, Phone, Mail, Facebook, ChevronDown, Heart, Share2, Download, X, ChevronLeft, ChevronRight, Maximize2, Star, Flame, Users } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
 import { FaTiktok } from "react-icons/fa";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -26,6 +26,9 @@ const services = [
     price: "$30",
     duration: "30 min",
     description: "Traditional haircut with modern styling",
+    rating: 4.8,
+    bookingsCount: 1250,
+    isPopular: true
   },
   {
     id: 2,
@@ -33,6 +36,9 @@ const services = [
     price: "$25",
     duration: "20 min",
     description: "Professional beard grooming and shaping",
+    rating: 4.9,
+    bookingsCount: 980,
+    isPopular: false
   },
   {
     id: 3,
@@ -40,6 +46,9 @@ const services = [
     price: "$35",
     duration: "45 min",
     description: "Luxurious traditional straight razor shave",
+    rating: 4.7,
+    bookingsCount: 750,
+    isPopular: false
   },
   {
     id: 4,
@@ -47,6 +56,9 @@ const services = [
     price: "$50",
     duration: "60 min",
     description: "Complete grooming package",
+    rating: 4.9,
+    bookingsCount: 1100,
+    isPopular: true
   },
 ];
 
@@ -471,9 +483,28 @@ const Index = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-barber-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow"
+                className="bg-barber-50 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow relative"
               >
-                <Scissors className="w-10 h-10 text-gold-500 mb-4" />
+                {service.isPopular && (
+                  <div className="absolute -top-3 -right-3 transform rotate-12">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gold-500 rounded-lg blur-sm opacity-50"></div>
+                      <div className="relative bg-gradient-to-r from-gold-500 to-gold-600 text-barber-950 px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-lg">
+                        <Flame className="w-4 h-4 animate-pulse" />
+                        <span className="font-semibold text-xs">Popular Choice</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div className="flex items-center justify-between mb-4">
+                  <Scissors className="w-10 h-10 text-gold-500" />
+                  {service.bookingsCount > 1000 && (
+                    <div className="flex items-center gap-1 text-barber-500 bg-barber-100 px-2 py-1 rounded-full">
+                      <Users className="w-4 h-4" />
+                      <span className="text-xs font-medium">1000+ clients</span>
+                    </div>
+                  )}
+                </div>
                 <h3 className="text-xl font-semibold text-barber-900 mb-2">
                   {service.name}
                 </h3>
@@ -482,6 +513,24 @@ const Index = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-gold-500 font-semibold">{service.price}</span>
                     <span className="text-barber-500 text-sm">{service.duration}</span>
+                  </div>
+                  <div className="flex items-center gap-1 mb-2">
+                    {[...Array(5)].map((_, index) => (
+                      <Star
+                        key={index}
+                        className={`w-4 h-4 ${
+                          index < Math.floor(service.rating)
+                            ? "fill-gold-500 text-gold-500"
+                            : index < service.rating
+                            ? "fill-gold-500/50 text-gold-500"
+                            : "text-barber-300"
+                        }`}
+                      />
+                    ))}
+                    <span className="ml-2 text-sm text-barber-600">{service.rating}</span>
+                  </div>
+                  <div className="text-sm text-barber-500">
+                    <span>{service.bookingsCount.toLocaleString()} bookings completed</span>
                   </div>
                   <BookingForm service={service} />
                 </div>
