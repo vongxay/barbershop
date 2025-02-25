@@ -52,9 +52,9 @@ export function BookingForm({ service }: BookingFormProps) {
             user_id: user.id,
             service_id: service.id,
             service_name: service.name,
-            booking_date: `${formData.date}T${formData.time}`,
+            booking_date: `${formData.date} ${formData.time}`,
             notes: formData.notes,
-            status: "pending",
+            status: "pending"
           },
         ]);
 

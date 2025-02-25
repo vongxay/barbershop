@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,12 +14,13 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 
 type AuthFormType = "login" | "register";
 
 export function AuthForms() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
   const [formType, setFormType] = useState<AuthFormType>("login");
   const [formData, setFormData] = useState({
     email: "",
@@ -108,15 +110,41 @@ export function AuthForms() {
   if (user) {
     return (
       <div className="flex items-center gap-2">
-        <span className="text-white">{user.email}</span>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleSignOut}
-          className="text-white hover:text-gold-500"
-        >
-          <LogOut className="w-4 h-4" />
-        </Button>
+        <span className="text-white">{user.user_metadata.full_name}</span>
+        <Dialog open={isLogoutDialogOpen} onOpenChange={setIsLogoutDialogOpen}>
+          <DialogTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:text-gold-500"
+            >
+              <User className="w-4 h-4" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px] bg-barber-900 text-white">
+            <DialogHeader>
+              <DialogTitle className="text-xl text-white">Confirm logout</DialogTitle>
+              <DialogDescription className="text-barber-400">
+                Are you sure you want to logout?
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter className="flex gap-2 mt-4">
+              <Button
+                variant="ghost"
+                onClick={() => setIsLogoutDialogOpen(false)}
+                className="text-white hover:text-gold-500"
+              >
+                cancel
+              </Button>
+              <Button
+                onClick={handleSignOut}
+                className="bg-gold-500 hover:bg-gold-600 text-barber-950"
+              >
+                confirm
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }
@@ -124,7 +152,7 @@ export function AuthForms() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="text-white border-white hover:text-gold-500 hover:border-gold-500">
+        <Button variant="outline" className="text-gold-700 border-white hover:text-gold-500 hover:border-gold-500">
           {formType === "login" ? "Login" : "Register"}
         </Button>
       </DialogTrigger>
