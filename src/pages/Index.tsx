@@ -18,6 +18,7 @@ import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { AuthForms } from "@/components/auth/AuthForms";
 import { BookingForm } from "@/components/booking/BookingForm";
+import { UdifyChat } from "@/components/chat/UdifyChat";
 
 const services = [
   {
@@ -218,13 +219,169 @@ const Index = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v12',
-      center: [-74.006, 40.7128], // Example coordinates (NYC)
-      zoom: 15
+      center: [102.6331, 17.9757], // พิกัดของเวียงจันทน์ ลาว
+      zoom: 14
     });
 
-    new mapboxgl.Marker()
-      .setLngLat([-74.006, 40.7128])
-      .addTo(map.current);
+    map.current.on('load', () => {
+      if (!map.current) return;
+
+      // เพิ่มเส้นทางระหว่างจุดต่างๆ
+      map.current.addSource('route', {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': [
+              [102.6281, 17.9707], // จุดเริ่มต้น (บ้าน)
+              [102.6301, 17.9727],
+              [102.6321, 17.9747],
+              [102.6331, 17.9757], // จุดสิ้นสุด (ร้านตัดผม)
+            ]
+          }
+        }
+      });
+      
+      map.current.addLayer({
+        'id': 'route',
+        'type': 'line',
+        'source': 'route',
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+          'line-color': '#FF0000',
+          'line-width': 6
+        }
+      });
+
+      // เพิ่มไอคอนบ้าน
+      const homeElement = document.createElement('div');
+      homeElement.className = 'home-marker';
+      homeElement.innerHTML = `
+        <div style="background-color: #FF0000; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+        </div>
+      `;
+      
+      new mapboxgl.Marker(homeElement)
+        .setLngLat([102.6281, 17.9707])
+        .addTo(map.current);
+
+      // เพิ่มไอคอนรถเข็นช้อปปิ้ง (ตามภาพที่แสดง)
+      const cartElement = document.createElement('div');
+      cartElement.className = 'cart-marker';
+      cartElement.innerHTML = `
+        <div style="background-color: #FF0000; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+        </div>
+      `;
+      
+      new mapboxgl.Marker(cartElement)
+        .setLngLat([102.6351, 17.9767])
+        .addTo(map.current);
+
+      // เพิ่มเส้นทางที่สอง (เส้นทางจากบ้านไปยังร้านค้า)
+      map.current.addSource('route2', {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': [
+              [102.6281, 17.9707], // จุดเริ่มต้น (บ้าน)
+              [102.6311, 17.9737],
+              [102.6351, 17.9767], // จุดสิ้นสุด (ร้านค้า)
+            ]
+          }
+        }
+      });
+      
+      map.current.addLayer({
+        'id': 'route2',
+        'type': 'line',
+        'source': 'route2',
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+          'line-color': '#FF0000',
+          'line-width': 6
+        }
+      });
+
+      // เพิ่มพื้นที่สีเขียวอ่อนและสระน้ำสีฟ้า (สวนสาธารณะ)
+      map.current.addSource('park', {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'Polygon',
+            'coordinates': [[
+              [102.6341, 17.9757],
+              [102.6361, 17.9777],
+              [102.6381, 17.9767],
+              [102.6371, 17.9747],
+              [102.6341, 17.9757]
+            ]]
+          }
+        }
+      });
+      
+      map.current.addLayer({
+        'id': 'park',
+        'type': 'fill',
+        'source': 'park',
+        'layout': {},
+        'paint': {
+          'fill-color': '#ABEBC6',
+          'fill-opacity': 0.8
+        }
+      });
+
+      // เพิ่มสระน้ำสีฟ้า
+      map.current.addSource('lake', {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'Polygon',
+            'coordinates': [[
+              [102.6351, 17.9757],
+              [102.6361, 17.9767],
+              [102.6371, 17.9757],
+              [102.6361, 17.9747],
+              [102.6351, 17.9757]
+            ]]
+          }
+        }
+      });
+      
+      map.current.addLayer({
+        'id': 'lake',
+        'type': 'fill',
+        'source': 'lake',
+        'layout': {},
+        'paint': {
+          'fill-color': '#AED6F1',
+          'fill-opacity': 0.8
+        }
+      });
+    });
 
     return () => {
       map.current?.remove();
@@ -562,17 +719,12 @@ const Index = () => {
                 onClick={() => handleImageClick(item, index)}
               >
                 {item.type === "before-after" ? (
-                  <div className="relative group">
+                  <div className="relative">
                     <div className="relative h-40 md:h-80 w-full">
                       <img
-                        src={item.beforeImage}
-                        alt={`Before - ${item.title}`}
-                        className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
-                      />
-                      <img
                         src={item.afterImage}
-                        alt={`After - ${item.title}`}
-                        className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                        alt={`${item.title}`}
+                        className="w-full h-full object-cover"
                       />
                       <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <Maximize2 className="w-6 h-6 text-white" />
@@ -581,7 +733,6 @@ const Index = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent">
                       <div className="absolute bottom-0 left-0 right-0 p-4">
                         <h3 className="text-white text-sm md:text-xl font-semibold">{item.title}</h3>
-                        <p className="text-barber-200 text-xs md:text-sm">Hover to see transformation</p>
                         <div className="flex items-center gap-4 mt-2">
                           <button
                             onClick={(e) => {
@@ -689,15 +840,15 @@ const Index = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="md:col-span-2 bg-white rounded-lg shadow-sm p-6"
+              className="md:col-span-1 bg-white rounded-lg shadow-sm p-6"
             >
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="name">Name</Label>
                     <Input
@@ -759,12 +910,24 @@ const Index = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="space-y-4"
+              className="md:col-span-2 h-full"
             >
-              <div className="flex flex-col items-start p-6 rounded-lg bg-barber-50">
-                <h3 className="text-xl font-semibold text-barber-900 mb-4">Find Us</h3>
-                <p className="text-barber-600 mb-4">123 Barber Street, Downtown</p>
-                <div ref={mapContainer} className="w-full h-[300px] rounded-lg overflow-hidden" />
+              <div className="flex flex-col h-full bg-barber-50 rounded-lg shadow-sm overflow-hidden">
+                <div className="p-6">
+                  <h3 className="text-xl font-semibold text-barber-900 mb-4">Find Us</h3>
+                  <p className="text-barber-600 mb-4">123 Barber Street, Downtown</p>
+                </div>
+                <div className="flex-grow w-full h-full min-h-[500px]">
+                  <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3794.5511068475856!2d102.63095731538602!3d17.975699987714787!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDU4JzMyLjUiTiAxMDLCsDM3JzU5LjkiRQ!5e0!3m2!1sen!2sth!4v1623456789012!5m2!1sen!2sth" 
+                    width="100%" 
+                    height="100%" 
+                    style={{ border: 0, display: 'block', minHeight: '100%' }} 
+                    allowFullScreen={true} 
+                    loading="lazy"
+                    title="Google Maps"
+                  ></iframe>
+                </div>
               </div>
             </motion.div>
           </div>
@@ -921,16 +1084,11 @@ const Index = () => {
               onClick={(e) => e.stopPropagation()}
             >
               {selectedImage.type === "before-after" ? (
-                <div className="relative group">
-                  <img
-                    src={selectedImage.beforeImage}
-                    alt={`Before - ${selectedImage.title}`}
-                    className="max-h-[80vh] transition-opacity duration-300 group-hover:opacity-0"
-                  />
+                <div className="relative">
                   <img
                     src={selectedImage.afterImage}
-                    alt={`After - ${selectedImage.title}`}
-                    className="absolute inset-0 max-h-[80vh] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    alt={`${selectedImage.title}`}
+                    className="max-h-[80vh]"
                   />
                 </div>
               ) : (
@@ -962,6 +1120,9 @@ const Index = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* แชทบอลลอยตัวจาก Udify */}
+      <UdifyChat />
     </div>
   );
 };

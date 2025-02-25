@@ -1,0 +1,8 @@
+/* Animation delay classes */
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+} 
