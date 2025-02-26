@@ -443,7 +443,9 @@ const Index = () => {
                       Team
                     </DropdownMenuItem>
                     <DropdownMenuItem className="text-barber-200 hover:text-white hover:bg-barber-800 cursor-pointer">
-                      Gallery
+                      <a href="#gallery">
+                        Gallery
+                      </a>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -470,6 +472,7 @@ const Index = () => {
               <Button 
                 size={isMobile ? "default" : "lg"}
                 className="bg-gold-500 hover:bg-gold-600 text-barber-950"
+                onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Book Now
               </Button>
@@ -579,6 +582,7 @@ const Index = () => {
               <Button 
                 size="lg"
                 className="bg-gold-500 hover:bg-gold-600 text-barber-950"
+                onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Book Appointment
               </Button>
@@ -586,6 +590,7 @@ const Index = () => {
                 size="lg"
                 variant="outline"
                 className="border-white text-gold hover:bg-white/10 hover:text-gold-500"
+                onClick={() => window.location.href = "#services"}
               >
                 View Services
               </Button>
@@ -615,6 +620,7 @@ const Index = () => {
               <Button 
                 size="lg"
                 className="w-full bg-gold-500 hover:bg-gold-600 text-barber-950 mt-4"
+                onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 Check Available Times
               </Button>
@@ -623,7 +629,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      <section id="services" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-barber-900 mb-4">
@@ -697,7 +703,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-barber-950">
+      <section id="gallery" className="py-20 bg-barber-950">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -824,7 +830,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      <section id="contact" className="py-20 bg-white">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -934,7 +940,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="py-20 bg-white">
+      <section id="about" className="py-20 bg-white">
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -950,6 +956,7 @@ const Index = () => {
             <Button 
               size="lg"
               className="bg-gold-500 hover:bg-gold-600 text-barber-950"
+              onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Book Your Visit
             </Button>
@@ -985,16 +992,16 @@ const Index = () => {
               <h4 className="text-white font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
                 <li>
-                  <a href="/services" className="text-barber-400 hover:text-gold-500">Services</a>
+                  <a href="#services" className="text-barber-400 hover:text-gold-500">Services</a>
                 </li>
                 <li>
-                  <a href="/about" className="text-barber-400 hover:text-gold-500">About Us</a>
+                  <a href="#about" className="text-barber-400 hover:text-gold-500">About Us</a>
                 </li>
                 <li>
-                  <a href="/gallery" className="text-barber-400 hover:text-gold-500">Gallery</a>
+                  <a href="#gallery" className="text-barber-400 hover:text-gold-500">Gallery</a>
                 </li>
                 <li>
-                  <a href="/contact" className="text-barber-400 hover:text-gold-500">Contact</a>
+                  <a href="#contact" className="text-barber-400 hover:text-gold-500">Contact</a>
                 </li>
               </ul>
             </div>
